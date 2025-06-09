@@ -1,0 +1,32 @@
+Selected Target Variable
+
+We'll define a custom binary classification target:
+High_Case = 1 if the number of malaria cases in a given country/year is in the top 25% (i.e., high incidence), otherwise 0.
+
+This approach:
+
+Creates a meaningful logistic regression task.
+
+Helps prioritize countries with high malaria burden.
+
+
+
+---
+
+🛠️ Features for the Model
+
+We'll include:
+
+No. of deaths
+
+WHO Region (one-hot encoded)
+
+Case fatality rate
+
+Years since first record
+
+
+We'll exclude:
+
+Country, Year, No. of cases, z-scores, and potential_outlier (either redundant or leak target).
+
