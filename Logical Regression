@@ -1,0 +1,51 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score
+
+# Load data
+df = pd.read_csv('malaria_data.csv')  # Convert your .docx table to CSV first
+
+# Drop missing or invalid entries
+df = df.dropna(subset=['No. of cases', 'No. of deaths', 'WHO Region', 'Case fatality rate'])
+
+# Create target variable: Top 25% as high case incidence
+threshold = df['No. of cases'].quantile(0.75)
+df['High_Case'] = (df['No. of cases'] >= threshold).astype(int)
+
+# Features and target
+X = df[['No. of deaths', 'WHO Region', 'Case fatality rate', 'Years_since_first_record']]
+y = df['High_Case']
+
+# Preprocessing pipeline
+numeric_features = ['No. of deaths', 'Case fatality rate', 'Years_since_first_record']
+categorical_features = ['WHO Region']
+
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', StandardScaler(), numeric_features),
+        ('cat', OneHotEncoder(drop='first'), categorical_features)
+    ])
+
+# Logistic regression pipeline
+pipeline = Pipeline(steps=[
+    ('preprocessor', preprocessor),
+    ('classifier', LogisticRegression(max_iter=1000))
+])
+
+# Train-test split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Train model
+pipeline.fit(X_train, y_train)
+
+# Evaluate
+y_pred = pipeline.predict(X_test)
+y_prob = pipeline.predict_proba(X_test)[:, 1]
+
+print("Classification Report:\n", classification_report(y_test, y_pred))
+print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
+print("ROC AUC Score:", roc_auc_score(y_test, y_prob))
