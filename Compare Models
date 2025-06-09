@@ -1,0 +1,66 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
+from xgboost import XGBClassifier
+import numpy as np
+
+# Load data
+df = pd.read_csv('malaria_data.csv')
+
+# Clean and preprocess
+for col in ['No. of cases', 'No. of deaths', 'Case fatality rate', 'Years_since_first_record']:
+    df[col] = pd.to_numeric(df[col], errors='coerce')
+
+df = df.dropna(subset=['No. of cases', 'No. of deaths', 'WHO Region', 'Case fatality rate', 'Years_since_first_record'])
+threshold = df['No. of cases'].quantile(0.75)
+df['High_Case'] = (df['No. of cases'] >= threshold).astype(int)
+
+X = df[['No. of deaths', 'WHO Region', 'Case fatality rate', 'Years_since_first_record']]
+y = df['High_Case']
+
+numeric_features = ['No. of deaths', 'Case fatality rate', 'Years_since_first_record']
+categorical_features = ['WHO Region']
+
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', StandardScaler(), numeric_features),
+        ('cat', OneHotEncoder(drop='first'), categorical_features)
+    ])
+
+models = {
+    'Logistic Regression': LogisticRegression(max_iter=1000),
+    'Random Forest': RandomForestClassifier(random_state=42),
+    'SVM': SVC(probability=True, random_state=42),
+    'XGBoost': XGBClassifier(use_label_encoder=False, eval_metric='logloss', random_state=42)
+}
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+results = []
+
+for name, model in models.items():
+    pipeline = Pipeline(steps=[
+        ('preprocessor', preprocessor),
+        ('classifier', model)
+    ])
+    pipeline.fit(X_train, y_train)
+    y_pred = pipeline.predict(X_test)
+    y_prob = pipeline.predict_proba(X_test)[:, 1] if hasattr(model, "predict_proba") else np.zeros_like(y_pred)
+
+    results.append({
+        'Model': name,
+        'Accuracy': accuracy_score(y_test, y_pred),
+        'Precision': precision_score(y_test, y_pred),
+        'Recall': recall_score(y_test, y_pred),
+        'F1 Score': f1_score(y_test, y_pred),
+        'ROC AUC': roc_auc_score(y_test, y_prob)
+    })
+
+comparison_df = pd.DataFrame(results).sort_values(by='ROC AUC', ascending=False)
+print(comparison_df)
