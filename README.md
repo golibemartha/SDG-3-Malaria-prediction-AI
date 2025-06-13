@@ -35,7 +35,7 @@ Malaria remains a major public health issue, particularly in tropical and subtro
 - **golibemartha**: EDA, visualizations, findings
 - **DoreenMongina**: Training ARIMA & Random Forest models
 - **YewandeMorris**: Logistic Regression & model comparison
-- **CipheredBits**: Report, README, Ethical Reflection, Coordination
+- **CipheredBits**: Report, README, Ethical Reflection, Presentation
 
 
 
