@@ -37,5 +37,8 @@ Malaria remains a major public health issue, particularly in tropical and subtro
 - **YewandeMorris**: Logistic Regression & model comparison
 - **CipheredBits**: Report, README, Ethical Reflection, Coordination
 
+## 📝 Blog Article
+Read the full blog on how our project solves SDG 3 and promotes fairness:  
+👉 https://sdg-3-project.hashnode.dev/fighting-malaria-with-machine-learning-a-step-toward-sdg-3-health-for-all-requires-knowledge-for-all-let-data-predict-what-eyes-cant-see
 
 
