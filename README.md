@@ -45,5 +45,5 @@ Read the full blog on how our project solves SDG 3 and promotes fairness:
 
 Watch our 5-minute demo presentation of the malaria outbreak prediction project:
  
-📺 [Watch on Google Drive]([https://drive.google.com/file/d/YOUR_FILE_ID/view](https://drive.google.com/file/d/1uwr2S-jzE_tDGm1Dt-JgjUsfCe4Ctat3/view?usp=drive_link))
+📺 [Watch on Google Drive](https://drive.google.com/file/d/1uwr2S-jzE_tDGm1Dt-JgjUsfCe4Ctat3/view?usp=drive_link))
 
