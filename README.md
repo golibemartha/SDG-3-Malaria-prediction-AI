@@ -41,4 +41,9 @@ Malaria remains a major public health issue, particularly in tropical and subtro
 Read the full blog on how our project solves SDG 3 and promotes fairness:  
 👉 https://sdg-3-project.hashnode.dev/fighting-malaria-with-machine-learning-a-step-toward-sdg-3-health-for-all-requires-knowledge-for-all-let-data-predict-what-eyes-cant-see
 
+## 🎥 Project Demo
+
+Watch our 5-minute demo presentation of the malaria outbreak prediction project:
+ 
+📺 [Watch on Google Drive]([https://drive.google.com/file/d/YOUR_FILE_ID/view](https://drive.google.com/file/d/1uwr2S-jzE_tDGm1Dt-JgjUsfCe4Ctat3/view?usp=drive_link))
 
